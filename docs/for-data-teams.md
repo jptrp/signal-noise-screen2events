@@ -15,7 +15,6 @@ Core fields (NormalizedEvent)
 
 Quickstarts
 - S3 (recommended demo): write newline-delimited JSON (`NormalizedEvent`) to S3 and point the CLI at `examples/s3_config.yaml`.
-- Athena: use `examples/athena_queries.sql` to map raw logs into the `NormalizedEvent` projection.
 - OpenSearch: use the OpenSearch adapter for observability stacks; see `examples/roku_config.yaml`.
 
 Example KPIs to compute
@@ -26,7 +25,6 @@ Example KPIs to compute
 
 Integration patterns
 - Offline batch (S3): easiest to reproduce; upload JSONL to S3 and run `s2e run --config examples/s3_config.yaml`.
-- SQL-backed (Athena): run scheduled queries to produce normalized JSONL and export to S3.
 - Search-backed (OpenSearch): great for near-real-time queries; use offsets and time windows.
 
 Best practices

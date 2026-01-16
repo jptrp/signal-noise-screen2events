@@ -2,8 +2,8 @@
 
 ## Overview
 
-The IR driver abstractions support multiple device platforms (Roku, Apple TV, Android, LG, Xumo, and others).
-This guide covers setup, device-specific quirks, and integration patterns.
+The IR driver abstractions support multiple device platforms (Roku, Apple TV, and others via custom adapters).
+This guide covers setup, configuration, and troubleshooting.
 
 ## Supported Platforms
 
@@ -29,36 +29,7 @@ ir_blaster_type: "custom"
 ir_device_id: "apple-tv-1"
 ```
 
-### Android Streaming Box
-**Configuration:** `examples/android_config.yaml`
-
-Most Android devices support Broadlink IR or ADB over network. Use `broadlink` type for most compatibility.
-
-```yaml
-ir_blaster_host: "192.168.1.61"
-ir_blaster_type: "broadlink"
-```
-
-### LG WebOS TV
-**Configuration:** `examples/lg_config.yaml`
-
-LG WebOS TVs support HDMI CEC, HDMI IR pass-through, and native LG IR codes. Use `custom` for LG-specific endpoints.
-
-```yaml
-ir_blaster_host: "192.168.1.62"
-ir_blaster_type: "custom"
-ir_device_id: "lg-webos-1"
-```
-
-### Xumo
-**Configuration:** `examples/xumo_config.yaml`
-
-Xumo devices typically work with Orvibo or Broadlink IR blasters.
-
-```yaml
-ir_blaster_host: "192.168.1.63"
-ir_blaster_type: "orvibo"
-```
+For other platforms, adapt the IR driver settings and extend the command mappings as needed.
 
 ## Supported Blaster Types
 
@@ -232,35 +203,12 @@ To add new device-specific IR codes:
 ```python
 ROKU_COMMANDS = {
     RemoteCommand.HOME: "0xC23C",
-    # Example: LG-specific code
-    # RemoteCommand.HOME: "0xE0E040BF",
+    # Add device-specific code:
+    # RemoteCommand.HOME: "0xE0E040BF",  # e.g. Apple TV code
 }
 ```
 
 For device-specific commands, extend `RemoteCommand` enum in `models.py`.
-
-## Device-Specific Notes
-
-### Roku
-- NEC IR codes are standard across models.
-- Broadlink RM Pro 3 is recommended for reliability.
-
-### Apple TV
-- HomeKit integration is preferable for home automation setups.
-- If using IR, custom endpoints require pre-configuration on the blaster.
-
-### Android
-- ADB (Android Debug Bridge) over network is an alternative to IR for more devices.
-- Most devices respond to Broadlink Broadlink Mini or standard Android remote codes.
-
-### LG WebOS
-- HDMI CEC passthrough is often more reliable than IR.
-- WebOS-specific codes may differ from standard remote IR codes.
-- Test with the native LG app first to verify codes.
-
-### Xumo
-- Xumo boxes are often co-branded; use the underlying device's IR codes.
-- Orvibo AllOne integrates well with Xumo's typical IR requirements.
 
 ## Integration with Pipeline
 

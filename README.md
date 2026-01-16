@@ -130,9 +130,6 @@ Outputs and troubleshooting are covered in `docs/IR_BLASTER.md` and the example 
 Tested and documented examples for popular streaming platforms:
 - **Roku:** `examples/roku_config.yaml` (Broadlink/Orvibo IR)
 - **Apple TV:** `examples/appletv_config.yaml` (custom HTTP or HomeKit)
-- **Android STB:** `examples/android_config.yaml` (Broadlink IR)
-- **LG WebOS:** `examples/lg_config.yaml` (CEC or native IR codes)
-- **Xumo:** `examples/xumo_config.yaml` (Orvibo IR)
 
 All examples use the same S3 telemetry pipeline; adapt IR driver settings and vision detectors per platform.
 
