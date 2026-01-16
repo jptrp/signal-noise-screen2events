@@ -15,13 +15,18 @@ class VideoConfig(BaseModel):
 
 class TelemetryConfig(BaseModel):
     # Use 'file' for public demo (events.jsonl of NormalizedEvent)
-    adapter: str = Field("file", description="file|athena|opensearch")
+    adapter: str = Field("file", description="file|athena|opensearch|s3")
     events_file: Optional[str] = None
     # OpenSearch adapter configuration
     opensearch_host: Optional[str] = None
     opensearch_index: Optional[str] = None
     opensearch_username: Optional[str] = None
     opensearch_password: Optional[str] = None
+    # S3 adapter configuration
+    s3_bucket: Optional[str] = None
+    s3_prefix: Optional[str] = None
+    s3_region: Optional[str] = None
+    s3_profile: Optional[str] = None
 
 
 class RunConfig(BaseModel):
