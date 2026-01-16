@@ -109,6 +109,29 @@ def run(
                 console.print(f"[cyan]Fetched {len(events)} events from OpenSearch.[/cyan]")
             except Exception as e:
                 console.print(f"[red]OpenSearch fetch failed: {e}[/red]")
+    elif cfg.telemetry.adapter == "s3":
+        from .events.s3_adapter import S3Adapter
+
+        if not cfg.telemetry.s3_bucket:
+            console.print("[yellow]S3 adapter requires s3_bucket. Skipping event correlation.[/yellow]")
+        else:
+            try:
+                adapter = S3Adapter(
+                    bucket=cfg.telemetry.s3_bucket,
+                    prefix=cfg.telemetry.s3_prefix,
+                    region=cfg.telemetry.s3_region,
+                    profile=cfg.telemetry.s3_profile,
+                )
+                q = EventQuery(
+                    time_start_ms=app_open_video_ms,
+                    time_end_ms=app_open_video_ms + 300_000,
+                    device_key=cfg.device_key,
+                )
+                events = list(adapter.fetch(q))
+                write_jsonl(out_dir / "events.jsonl", events)
+                console.print(f"[cyan]Fetched {len(events)} events from S3 (bucket={cfg.telemetry.s3_bucket}).[/cyan]")
+            except Exception as e:
+                console.print(f"[red]S3 fetch failed: {e}[/red]")
     else:
         console.print(
             "[yellow]Telemetry adapter type not recognized. Use file or opensearch.[/yellow]"

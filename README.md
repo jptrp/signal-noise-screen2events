@@ -94,27 +94,36 @@ examples/
   config.example.yaml
 ```
 
-## Example: Roku + OpenSearch (illustrative)
+## Example integrations (illustrative)
 
-This repository is intentionally vendor-agnostic. The work in `feat/opensearch-roku-integration`
-shows a concrete example of how to wire a streaming device (Roku) and a search-backed
-telemetry source (OpenSearch) into the generic pipeline. Treat this as a reference
-implementation you can adapt for other devices and telemetry systems.
+This repository is intentionally vendor-agnostic. The examples directory contains
+concrete reference implementations you can adapt. The most reproducible and broadly
+relatable option is S3 (JSONL files of `NormalizedEvent`), followed by Athena and
+OpenSearch examples for teams with analytics or observability stacks.
 
-Quick illustrative steps:
+S3 (recommended, lowest friction):
 
-- Capture a Roku HDMI session to `roku_session.mp4` using any UVC-compatible capture.
-- Configure `examples/roku_config.yaml` (contains `ir_blaster_*` and OpenSearch settings).
+- Capture a session to `session.mp4` using any UVC-compatible capture.
+- Configure `examples/s3_config.yaml` (contains `s3_bucket`, `s3_prefix`, and optional region/profile).
 - Install optional extras and run:
 
 ```bash
 source .venv/bin/activate
-pip install -e '.[video,opensearch,ir]'
-s2e run --config examples/roku_config.yaml --video roku_session.mp4 --out runs
+pip install -e '.[video,s3,ir]'
+s2e run --config examples/s3_config.yaml --video session.mp4 --out runs
 ```
 
-Outputs and troubleshooting are covered in `docs/IR_BLASTER.md` (IR setup) and
-the example config `examples/roku_config.yaml`.
+Athena (SQL-backed analytics):
+
+- Use `pyathena` to query event lakes and normalize to `NormalizedEvent`.
+- See `examples/config.example.yaml` for placeholders and the `aws` extras.
+
+OpenSearch (search/observability stacks):
+
+- Use `examples/roku_config.yaml` and the OpenSearch adapter if you have a running cluster.
+- Install with `pip install -e '.[video,opensearch,ir]'` and run as shown above.
+
+Outputs and troubleshooting are covered in `docs/IR_BLASTER.md` and the example configs.
 
 
 ## Quick start

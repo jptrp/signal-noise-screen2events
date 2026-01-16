@@ -213,6 +213,16 @@ pip install -e '.[ir]'
 pip install -e '.[video,opensearch,ir,dev]'
 ```
 
+If you plan to use S3-stored telemetry (recommended for low-friction demos), install the
+S3 extra and follow the `examples/s3_config.yaml` example:
+
+```bash
+pip install -e '.[s3]'
+```
+
+The S3 adapter expects newline-delimited JSON (JSONL) files of `NormalizedEvent` records.
+Place them under your configured `s3_prefix` and the adapter will enumerate and read them.
+
 ## Testing
 
 Run IR driver tests:
