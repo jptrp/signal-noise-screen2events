@@ -1,0 +1,4 @@
+{"t_event_ms": 1000, "kind": "session_start", "session_key": "session-001", "device_key": "device-abc", "metadata": {"note": "example only"}, "raw": {}}
+{"t_event_ms": 8000, "kind": "playback", "session_key": "session-001", "device_key": "device-abc", "metadata": {}, "raw": {}}
+{"t_event_ms": 15000, "kind": "buffering", "session_key": "session-001", "device_key": "device-abc", "metadata": {}, "raw": {}}
+{"t_event_ms": 22000, "kind": "playback", "session_key": "session-001", "device_key": "device-abc", "metadata": {}, "raw": {}}

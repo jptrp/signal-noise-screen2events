@@ -1,0 +1,118 @@
+# Signal & Noise — Screen-to-Events Correlator
+
+Correlate **what users actually saw** on a TV/device screen with **what telemetry claims happened**.
+
+This is a generic, vendor-agnostic reference implementation for hardware-in-the-loop observability:
+- the screen is the **source of truth**
+- telemetry is a **set of claims**
+- correlation is **explainable** and **evidence-backed**
+
+## What it does
+Given:
+1) a video capture of the device output (HDMI capture recommended),
+2) optional remote-control actions (IR blaster recommended), and
+3) an application telemetry stream (queried from a datastore/search index/stream),
+
+…the system produces:
+- a screen-derived **state timeline** (playback/buffering/ad/error/etc.)
+- a telemetry-derived **event timeline** (whatever your system emits)
+- an **alignment model** (offset/drift estimates)
+- a **correlation report** with mismatches and screenshot evidence
+
+## Why this exists
+Telemetry is essential, but not infallible. In real systems it can be missing, late, early, optimistic, or simply wrong. The user experience is what matters, and the most reliable signal is often the thing the user can actually see.
+
+## Core principles
+- **Screen first:** the screen is the ground truth.
+- **Verify actions:** remote inputs are not trusted until visually confirmed.
+- **Gate telemetry:** do not correlate telemetry until the target app is visibly open.
+- **Be generic:** no assumptions about proprietary schemas or platform APIs.
+- **Prefer explainable heuristics:** state machines over opaque magic for MVPs.
+
+## Architecture
+```mermaid
+flowchart LR
+  Device[TV / Streaming device] --> HDMI[HDMI capture] --> Vision[Vision analysis] --> SM[State machine]
+  IR[IR blaster] --> Device
+  Telemetry[Telemetry source] --> SR[Session resolver]
+  SM --> Corr[Correlation engine]
+  SR --> Corr
+  Corr --> Report[Evidence report]
+```
+
+## Demo walkthrough (example run)
+1. Start HDMI capture (or load a recorded session).
+2. Navigate into the target streaming app (IR automation or manual).
+3. Vision confirms **App Open**; only then telemetry queries begin.
+4. Resolve session identity (bootstrap if needed, otherwise use known device identity).
+5. Trigger playback and observe states (buffering, playback, ads, pauses, errors).
+6. Align timelines using anchor points and estimate offset/drift.
+7. Generate `report.md` with evidence frames for mismatches.
+
+## Session and device identity
+Most telemetry ecosystems include:
+- a **session/visit identifier** (ephemeral)
+- a **device identifier** (stable)
+
+This repo does not assume names or structures. It supports a generic lifecycle:
+- **Bootstrap mode (first run):** resolve the correct session, then learn and persist a stable device identifier.
+- **Known-device mode:** filter telemetry by that device identifier and select the active session deterministically.
+
+## Hardware needed
+### Required for a full loop
+- TV/streaming device
+- HDMI capture device (UVC compliant recommended)
+- Development machine (macOS/Linux)
+
+### Optional but recommended
+- IR blaster for repeatable automation
+- HDMI splitter for passthrough viewing
+
+### Incremental bring-up
+You can build much of the system without all hardware:
+- HDMI only: vision + state timeline + synthetic telemetry
+- IR only: action sequencing + verification stubs
+- Device only: manual navigation + recorded analysis
+
+## Known limitations
+- **Heuristic vision:** UI changes may require detector tweaks.
+- **Timing is approximate:** network buffering, batching, and clock skew limit precision.
+- **Not a replacement for telemetry:** this complements telemetry by validating it.
+- **Platform variance:** some platforms expose more diagnostics than others; the system adapts rather than assumes.
+
+## Repo layout
+```
+src/screen2events/
+  cli.py
+  video/          # capture, frame sampling, detectors, state machine
+  control/        # IR abstractions + visual verification loop
+  events/         # adapters (Athena/OpenSearch skeletons) + normalization
+  session_id/     # session/device identity resolution
+  correlate/      # alignment, matching, anomaly rules
+  report/         # markdown report + evidence frame export
+examples/
+  config.example.yaml
+```
+
+## Quick start
+### 1) Install
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -e .
+```
+
+### 2) Run (offline from a video file)
+```bash
+s2e run --config examples/config.example.yaml --video path/to/session.mp4
+```
+
+Outputs are written to `runs/<timestamp>/`.
+
+## AI coding assistant prompt (safe and generic)
+Use this with Amazon Q, Copilot, or similar:
+
+> Build a Python MVP for correlating user-visible screen states (from HDMI-captured video) with application telemetry. The screen is the source of truth; telemetry is claims. Do not assume proprietary schemas or field names. Implement a vision-driven state machine (home/app open/playback/buffering/ad/error), gate telemetry ingestion until the app is visibly open, resolve session identity via overlay or log inference, persist stable device identity after first successful run, and generate a markdown report with screenshots as evidence. Prefer deterministic, explainable heuristics over complex ML.
+
+## License
+MIT

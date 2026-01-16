@@ -1,0 +1,23 @@
+# Example configuration for Signal & Noise — Screen-to-Events Correlator
+#
+# This example uses the public FileAdapter, which reads NormalizedEvent objects
+# from a JSONL file. This keeps the repo generic and avoids proprietary schemas.
+
+run_id: demo_run
+
+# If your vision pipeline does not yet detect APP_OPEN, set this manually.
+# app_open_video_ms: 0
+
+# Optional stable device identity to filter telemetry (if available in your normalized events)
+# device_key: "living_room_roku"
+
+video:
+  sample_fps: 10
+  enable_ocr: false
+  # Optional OCR region of interest (normalized coords): [x1, y1, x2, y2]
+  # ocr_roi_norm: [0.65, 0.05, 0.98, 0.18]
+
+telemetry:
+  adapter: file
+  # Path to a JSONL file where each line is a NormalizedEvent JSON object
+  # events_file: examples/events.example.jsonl
