@@ -151,6 +151,7 @@ Outputs are written to `runs/<timestamp>/`.
 ## Documentation
 
 - **[For WebDriver Developers](docs/for-webdriver-developers.md)** — How screen-to-events differs from browser automation; why pixel analysis beats DOM inspection
+- **[Page Detection Guide](docs/page-detection-guide.md)** — Recognize streaming app pages (home, live TV, guide, search, settings) using OCR, layout, and motion patterns
 - **[For Data Teams](docs/for-data-teams.md)** — Telemetry integration patterns, KPIs, S3/Athena/OpenSearch quickstarts
 - **[IR Blaster Setup](docs/IR_BLASTER.md)** — Remote control automation, device-specific notes
 - **[Contributing](CONTRIBUTING.md)** — Adapter pattern, test guidelines, security
