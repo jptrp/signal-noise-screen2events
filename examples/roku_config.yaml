@@ -3,15 +3,23 @@
 # This config demonstrates how to:
 # 1. Correlate screen observations from a captured Roku HDMI stream
 # 2. Fetch telemetry events from an OpenSearch cluster
-# 3. Align timelines and detect mismatches
+# 3. Send IR commands to a Roku via an HTTP-based IR blaster
+# 4. Align timelines and detect mismatches
 
-run_id: roku_openearch_session_001
+run_id: roku_opensearch_session_001
 
 # Explicit gate point if auto-detection fails
 # app_open_video_ms: 2000
 
 # Device identifier (used to filter telemetry by device)
 device_key: "living_room_roku_abc123"
+
+# IR Blaster configuration
+# Leave ir_blaster_host empty or null to disable IR automation (manual testing)
+ir_blaster_host: "192.168.1.100"       # IP address of Broadlink/Orvibo/custom IR blaster
+ir_blaster_port: 80                    # HTTP port for IR blaster API
+ir_blaster_type: "broadlink"           # Type: broadlink, orvibo, or custom
+ir_device_id: "aabbccddeeff"           # MAC address or device ID (if multi-device blaster)
 
 video:
   # Frame sampling rate (10 fps is typical for Roku UI analysis)

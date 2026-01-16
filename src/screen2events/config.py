@@ -32,6 +32,11 @@ class RunConfig(BaseModel):
     device_key: Optional[str] = None
     video: VideoConfig = VideoConfig()
     telemetry: TelemetryConfig = TelemetryConfig()
+    # Optional IR blaster configuration
+    ir_blaster_host: Optional[str] = None
+    ir_blaster_port: int = 80
+    ir_blaster_type: str = "broadlink"  # broadlink, orvibo, custom
+    ir_device_id: Optional[str] = None
 
 
 def load_config(path: str | Path) -> RunConfig:
