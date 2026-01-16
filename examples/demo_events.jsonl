@@ -1,0 +1,10 @@
+{"t_event_ms":1000,"kind":"session_start","session_key":"sess-1","device_key":"dev-A","metadata":{"source":"demo"},"raw":{}}
+{"t_event_ms":2500,"kind":"playback","session_key":"sess-1","device_key":"dev-A","metadata":{"quality":"HD"},"raw":{}}
+{"t_event_ms":4000,"kind":"buffering","session_key":"sess-1","device_key":"dev-A","metadata":{},"raw":{}}
+{"t_event_ms":7000,"kind":"playback","session_key":"sess-1","device_key":"dev-A","metadata":{},"raw":{}}
+{"t_event_ms":12000,"kind":"ad","session_key":"sess-1","device_key":"dev-A","metadata":{"ad_id":"ad-123"},"raw":{}}
+{"t_event_ms":15000,"kind":"playback","session_key":"sess-1","device_key":"dev-A","metadata":{},"raw":{}}
+{"t_event_ms":20000,"kind":"error","session_key":"sess-1","device_key":"dev-A","metadata":{"code":504},"raw":{}}
+{"t_event_ms":25000,"kind":"playback","session_key":"sess-1","device_key":"dev-A","metadata":{},"raw":{}}
+{"t_event_ms":30000,"kind":"heartbeat","session_key":"sess-1","device_key":"dev-A","metadata":{},"raw":{}}
+{"t_event_ms":35000,"kind":"playback","session_key":"sess-1","device_key":"dev-A","metadata":{},"raw":{}}
