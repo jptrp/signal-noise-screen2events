@@ -23,6 +23,9 @@ video = [
   "opencv-python>=4.9",
   "pytesseract>=0.3.10",
 ]
+opensearch = [
+  "opensearch-py>=2.4",
+]
 aws = [
   "boto3>=1.34",
   "pyathena>=3.6",

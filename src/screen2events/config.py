@@ -17,6 +17,11 @@ class TelemetryConfig(BaseModel):
     # Use 'file' for public demo (events.jsonl of NormalizedEvent)
     adapter: str = Field("file", description="file|athena|opensearch")
     events_file: Optional[str] = None
+    # OpenSearch adapter configuration
+    opensearch_host: Optional[str] = None
+    opensearch_index: Optional[str] = None
+    opensearch_username: Optional[str] = None
+    opensearch_password: Optional[str] = None
 
 
 class RunConfig(BaseModel):
