@@ -1,0 +1,46 @@
+# Example configuration for Roku + OpenSearch integration
+#
+# This config demonstrates how to:
+# 1. Correlate screen observations from a captured Roku HDMI stream
+# 2. Fetch telemetry events from an OpenSearch cluster
+# 3. Send IR commands to a Roku via an HTTP-based IR blaster
+# 4. Align timelines and detect mismatches
+
+run_id: roku_opensearch_session_001
+
+# Explicit gate point if auto-detection fails
+# app_open_video_ms: 2000
+
+# Device identifier (used to filter telemetry by device)
+device_key: "living_room_roku_abc123"
+
+# IR Blaster configuration
+# Leave ir_blaster_host empty or null to disable IR automation (manual testing)
+ir_blaster_host: "192.168.1.100"       # IP address of Broadlink/Orvibo/custom IR blaster
+ir_blaster_port: 80                    # HTTP port for IR blaster API
+ir_blaster_type: "broadlink"           # Type: broadlink, orvibo, or custom
+ir_device_id: "aabbccddeeff"           # MAC address or device ID (if multi-device blaster)
+
+video:
+  # Frame sampling rate (10 fps is typical for Roku UI analysis)
+  sample_fps: 10
+  
+  # Enable OCR to detect UI text (HOME, PLAY, BUFFERING, ERROR, etc.)
+  enable_ocr: true
+  
+  # Optional OCR region of interest (normalized: 0.0-1.0)
+  # Useful if you want to focus on status overlays or title bars
+  # ocr_roi_norm: [0.0, 0.0, 1.0, 0.3]
+
+telemetry:
+  adapter: opensearch
+  
+  # OpenSearch cluster details
+  opensearch_host: "opensearch.example.com"
+  opensearch_index: "streaming-events"
+  opensearch_username: "user"
+  opensearch_password: "password"
+
+  # Alternative: use environment variables for credentials
+  # opensearch_username: ${OPENSEARCH_USER}
+  # opensearch_password: ${OPENSEARCH_PASSWORD}

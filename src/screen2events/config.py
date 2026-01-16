@@ -17,6 +17,11 @@ class TelemetryConfig(BaseModel):
     # Use 'file' for public demo (events.jsonl of NormalizedEvent)
     adapter: str = Field("file", description="file|athena|opensearch")
     events_file: Optional[str] = None
+    # OpenSearch adapter configuration
+    opensearch_host: Optional[str] = None
+    opensearch_index: Optional[str] = None
+    opensearch_username: Optional[str] = None
+    opensearch_password: Optional[str] = None
 
 
 class RunConfig(BaseModel):
@@ -27,6 +32,11 @@ class RunConfig(BaseModel):
     device_key: Optional[str] = None
     video: VideoConfig = VideoConfig()
     telemetry: TelemetryConfig = TelemetryConfig()
+    # Optional IR blaster configuration
+    ir_blaster_host: Optional[str] = None
+    ir_blaster_port: int = 80
+    ir_blaster_type: str = "broadlink"  # broadlink, orvibo, custom
+    ir_device_id: Optional[str] = None
 
 
 def load_config(path: str | Path) -> RunConfig:

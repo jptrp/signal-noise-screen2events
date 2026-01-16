@@ -69,7 +69,7 @@ def run(
     app_open_video_ms = cfg.app_open_video_ms if cfg.app_open_video_ms is not None else _detect_app_open(observations)
     write_json(out_dir / "gate.json", {"app_open_video_ms": app_open_video_ms})
 
-    # 3) Telemetry (public demo via FileAdapter)
+    # 3) Telemetry (file or opensearch)
     events = []
     if cfg.telemetry.adapter == "file":
         if not cfg.telemetry.events_file:
@@ -77,16 +77,41 @@ def run(
         else:
             adapter = FileAdapter(cfg.telemetry.events_file)
             q = EventQuery(
-                time_start_ms=0,
-                time_end_ms=10**15,
+                time_start_ms=app_open_video_ms,
+                time_end_ms=app_open_video_ms + 300_000,
                 device_key=cfg.device_key,
             )
             events = list(adapter.fetch(q))
             write_jsonl(out_dir / "events.jsonl", events)
+    elif cfg.telemetry.adapter == "opensearch":
+        from .events.opensearch_adapter import OpenSearchAdapter
+
+        if not cfg.telemetry.opensearch_host or not cfg.telemetry.opensearch_index:
+            console.print(
+                "[yellow]OpenSearch adapter requires opensearch_host and opensearch_index."
+                " Skipping event correlation.[/yellow]"
+            )
+        else:
+            try:
+                adapter = OpenSearchAdapter(
+                    host=cfg.telemetry.opensearch_host,
+                    index=cfg.telemetry.opensearch_index,
+                    username=cfg.telemetry.opensearch_username,
+                    password=cfg.telemetry.opensearch_password,
+                )
+                q = EventQuery(
+                    time_start_ms=app_open_video_ms,
+                    time_end_ms=app_open_video_ms + 300_000,
+                    device_key=cfg.device_key,
+                )
+                events = list(adapter.fetch(q))
+                write_jsonl(out_dir / "events.jsonl", events)
+                console.print(f"[cyan]Fetched {len(events)} events from OpenSearch.[/cyan]")
+            except Exception as e:
+                console.print(f"[red]OpenSearch fetch failed: {e}[/red]")
     else:
         console.print(
-            "[yellow]Telemetry adapters for athena/opensearch are skeletons in this public repo. "
-            "Use the file adapter or implement your adapter privately.[/yellow]"
+            "[yellow]Telemetry adapter type not recognized. Use file or opensearch.[/yellow]"
         )
 
     # 4) Alignment + correlation
