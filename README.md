@@ -153,9 +153,15 @@ Outputs are written to `runs/<timestamp>/`.
 - **[For WebDriver Developers](docs/for-webdriver-developers.md)** — How screen-to-events differs from browser automation; why pixel analysis beats DOM inspection
 - **[Page Detection Guide](docs/page-detection-guide.md)** — Recognize streaming app pages (home, live TV, guide, search, settings) using OCR, layout, and motion patterns
 - **[For Data Teams](docs/for-data-teams.md)** — Telemetry integration patterns, KPIs, S3/Athena/OpenSearch quickstarts
+- **[Troubleshooting](docs/troubleshooting.md)** — Common issues and solutions (motion sensitivity, OCR, IR, alignment, etc.)
+- **[Roadmap](ROADMAP.md)** — Future direction: real-time streaming, multi-device, ML, cloud scale
 - **[IR Blaster Setup](docs/IR_BLASTER.md)** — Remote control automation, device-specific notes
 - **[Contributing](CONTRIBUTING.md)** — Adapter pattern, test guidelines, security
 - **[Copilot Instructions](/.github/copilot-instructions.md)** — Architecture, patterns, dev workflow for AI coding agents
+
+### Example Outputs
+
+See [examples/example-outputs/](examples/example-outputs/) for sample observations, events, findings, and report from a typical 3-minute session.
 
 ## License
 MIT

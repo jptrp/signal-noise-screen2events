@@ -1,0 +1,12 @@
+```json
+{"t_event_ms": 2000, "kind": "session_start", "session_key": "roku_session_20260115_001", "device_key": "roku_f35d41", "metadata": {"app": "netflix", "region": "us-west-2"}, "raw": {"timestamp": 1673792400000, "event_type": "app_open", "user_id": "user_12345"}}
+{"t_event_ms": 3500, "kind": "browse_start", "session_key": "roku_session_20260115_001", "device_key": "roku_f35d41", "metadata": {"category": "live_tv"}, "raw": {"timestamp": 1673792401500, "event_type": "browse", "section": "live_channels"}}
+{"t_event_ms": 8000, "kind": "content_selected", "session_key": "roku_session_20260115_001", "device_key": "roku_f35d41", "metadata": {"content_id": "ch_nbc", "title": "NBC"}, "raw": {"timestamp": 1673792406000, "event_type": "select", "content_key": "ch_nbc"}}
+{"t_event_ms": 9500, "kind": "playback_start", "session_key": "roku_session_20260115_001", "device_key": "roku_f35d41", "metadata": {"content_id": "ch_nbc", "bitrate": "5000k"}, "raw": {"timestamp": 1673792407500, "event_type": "play", "stream_id": "abc123"}}
+{"t_event_ms": 65000, "kind": "buffering_start", "session_key": "roku_session_20260115_001", "device_key": "roku_f35d41", "metadata": {"reason": "network_congestion", "buffer_level": 0.15}, "raw": {"timestamp": 1673792463000, "event_type": "buffer", "level": 15}}
+{"t_event_ms": 68000, "kind": "buffering_end", "session_key": "roku_session_20260115_001", "device_key": "roku_f35d41", "metadata": {"duration_ms": 3000, "recovery_bitrate": "4500k"}, "raw": {"timestamp": 1673792466000, "event_type": "resume", "new_bitrate": 4500}}
+{"t_event_ms": 95000, "kind": "ad_start", "session_key": "roku_session_20260115_001", "device_key": "roku_f35d41", "metadata": {"ad_id": "ad_xyz789", "duration_sec": 30}, "raw": {"timestamp": 1673792493000, "event_type": "ad_impression", "ad_key": "ad_xyz789"}}
+{"t_event_ms": 126000, "kind": "ad_end", "session_key": "roku_session_20260115_001", "device_key": "roku_f35d41", "metadata": {"ad_id": "ad_xyz789", "watched_sec": 31}, "raw": {"timestamp": 1673792524000, "event_type": "ad_complete"}}
+{"t_event_ms": 150000, "kind": "pause", "session_key": "roku_session_20260115_001", "device_key": "roku_f35d41", "metadata": {"playhead_ms": 141000}, "raw": {"timestamp": 1673792548000, "event_type": "pause"}}
+{"t_event_ms": 180000, "kind": "playback_end", "session_key": "roku_session_20260115_001", "device_key": "roku_f35d41", "metadata": {"duration_ms": 171000, "completion_percent": 0.45}, "raw": {"timestamp": 1673792578000, "event_type": "stop"}}
+```

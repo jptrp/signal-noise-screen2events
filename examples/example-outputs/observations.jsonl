@@ -1,0 +1,10 @@
+{"t_video_ms": 2000, "state": "app_open", "confidence": 0.95, "signals": {"motion": 0.02, "ocr_text": "netflix home"}}
+{"t_video_ms": 3000, "state": "browse", "confidence": 0.85, "signals": {"motion": 0.04, "ocr_text": "live tv"}}
+{"t_video_ms": 8500, "state": "browse", "confidence": 0.88, "signals": {"motion": 0.03, "ocr_text": "nbc selected"}}
+{"t_video_ms": 9000, "state": "buffering", "confidence": 0.92, "signals": {"motion": 0.01, "ocr_text": "loading"}}
+{"t_video_ms": 9500, "state": "playback", "confidence": 0.96, "signals": {"motion": 0.15, "ocr_text": ""}}
+{"t_video_ms": 65000, "state": "buffering", "confidence": 0.90, "signals": {"motion": 0.00, "ocr_text": "buffering"}}
+{"t_video_ms": 68500, "state": "playback", "confidence": 0.94, "signals": {"motion": 0.14, "ocr_text": ""}}
+{"t_video_ms": 95500, "state": "ad", "confidence": 0.91, "signals": {"motion": 0.12, "ocr_text": "skip ad"}}
+{"t_video_ms": 126500, "state": "playback", "confidence": 0.95, "signals": {"motion": 0.16, "ocr_text": ""}}
+{"t_video_ms": 150000, "state": "paused", "confidence": 0.98, "signals": {"motion": 0.00, "ocr_text": "pause"}}

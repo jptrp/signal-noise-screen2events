@@ -1,0 +1,1 @@
+{"offset_ms": 50, "drift_ppm": 1000, "anchor_points": [{"video_ms": 9500, "event_ms": 9500, "kind": "playback_start", "confidence": 0.95}], "notes": "Single anchor point; drift estimated from playback observation consistency. Recommended: more anchor points for robust alignment."}
