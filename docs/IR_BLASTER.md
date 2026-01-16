@@ -2,7 +2,63 @@
 
 ## Overview
 
-The `RokuIRDriver` class provides HTTP-based IR command transmission to Roku devices via compatible IR blasters. It supports multiple blaster types and handles command mapping automatically.
+The IR driver abstractions support multiple device platforms (Roku, Apple TV, Android, LG, Xumo, and others).
+This guide covers setup, device-specific quirks, and integration patterns.
+
+## Supported Platforms
+
+### Roku
+**Configuration:** `examples/roku_config.yaml`
+
+Roku uses NEC IR codes. Broadlink RM or Orvibo blasters work reliably.
+
+```yaml
+ir_blaster_host: "192.168.1.100"
+ir_blaster_type: "broadlink"  # or orvibo
+ir_device_id: "aabbccddeeff"
+```
+
+### Apple TV
+**Configuration:** `examples/appletv_config.yaml`
+
+Apple TV devices respond to HDMI CEC or HomeKit commands. For IR control, use custom endpoints if available.
+
+```yaml
+ir_blaster_host: "192.168.1.60"
+ir_blaster_type: "custom"
+ir_device_id: "apple-tv-1"
+```
+
+### Android Streaming Box
+**Configuration:** `examples/android_config.yaml`
+
+Most Android devices support Broadlink IR or ADB over network. Use `broadlink` type for most compatibility.
+
+```yaml
+ir_blaster_host: "192.168.1.61"
+ir_blaster_type: "broadlink"
+```
+
+### LG WebOS TV
+**Configuration:** `examples/lg_config.yaml`
+
+LG WebOS TVs support HDMI CEC, HDMI IR pass-through, and native LG IR codes. Use `custom` for LG-specific endpoints.
+
+```yaml
+ir_blaster_host: "192.168.1.62"
+ir_blaster_type: "custom"
+ir_device_id: "lg-webos-1"
+```
+
+### Xumo
+**Configuration:** `examples/xumo_config.yaml`
+
+Xumo devices typically work with Orvibo or Broadlink IR blasters.
+
+```yaml
+ir_blaster_host: "192.168.1.63"
+ir_blaster_type: "orvibo"
+```
 
 ## Supported Blaster Types
 
@@ -168,100 +224,49 @@ except ValueError as e:
 
 ## Extending with Additional Commands
 
-To add new Roku IR codes:
+To add new device-specific IR codes:
 
-1. Find the Roku NEC code for the command
-2. Add to `RokuIRDriver.ROKU_COMMANDS`:
+1. Find the NEC code for your device's remote buttons
+2. Add to `RokuIRDriver.ROKU_COMMANDS` (or create a device-specific mapping):
 
 ```python
 ROKU_COMMANDS = {
     RemoteCommand.HOME: "0xC23C",
-    # Add new mapping:
-    # RemoteCommand.CUSTOM: "0xABCD",
+    # Example: LG-specific code
+    # RemoteCommand.HOME: "0xE0E040BF",
 }
 ```
 
-Or extend the `RemoteCommand` enum in `models.py` and add the IR code.
+For device-specific commands, extend `RemoteCommand` enum in `models.py`.
 
-## Network Setup
+## Device-Specific Notes
 
-### Requirements
-- IR blaster device on same network as test machine
-- Network must allow HTTP communication (port 80/8080)
-- IR blaster must be powered on and responsive
+### Roku
+- NEC IR codes are standard across models.
+- Broadlink RM Pro 3 is recommended for reliability.
 
-### Debugging Connection
-```bash
-# Test connectivity
-curl -X POST http://192.168.1.100:80/api/irda/send \
-  -H "Content-Type: application/json" \
-  -d '{"device_id":"aabbccddeeff","code":"0xC23C"}'
+### Apple TV
+- HomeKit integration is preferable for home automation setups.
+- If using IR, custom endpoints require pre-configuration on the blaster.
 
-# Check if device responds
-ping 192.168.1.100
-```
+### Android
+- ADB (Android Debug Bridge) over network is an alternative to IR for more devices.
+- Most devices respond to Broadlink Broadlink Mini or standard Android remote codes.
 
-## Dependencies
+### LG WebOS
+- HDMI CEC passthrough is often more reliable than IR.
+- WebOS-specific codes may differ from standard remote IR codes.
+- Test with the native LG app first to verify codes.
 
-Requires `requests>=2.28` for HTTP communication:
-
-```bash
-# Install IR support
-pip install -e '.[ir]'
-
-# Or with everything
-pip install -e '.[video,opensearch,ir,dev]'
-```
-
-If you plan to use S3-stored telemetry (recommended for low-friction demos), install the
-S3 extra and follow the `examples/s3_config.yaml` example:
-
-```bash
-pip install -e '.[s3]'
-```
-
-The S3 adapter expects newline-delimited JSON (JSONL) files of `NormalizedEvent` records.
-Place them under your configured `s3_prefix` and the adapter will enumerate and read them.
-
-## Testing
-
-Run IR driver tests:
-
-```bash
-pytest tests/test_ir.py -v
-```
-
-Tests cover:
-- LogOnlyDriver (no-op mode)
-- RokuIRDriver initialization
-- Factory function behavior
-- Command coverage
-- Error handling
-
-## Troubleshooting
-
-### "requests library is required"
-```bash
-pip install requests
-```
-
-### "Failed to send IR command"
-- Verify IR blaster is reachable: `ping 192.168.1.100`
-- Check blaster type matches your device
-- Verify device_id is correct (for Broadlink)
-- Check firewall rules
-
-### Commands not received by Roku
-- Verify IR blaster can see Roku (line of sight for IR)
-- Test with IR blaster's native app first
-- Check IR codes are correct for your Roku model
-- Ensure Roku is powered on and responsive
+### Xumo
+- Xumo boxes are often co-branded; use the underlying device's IR codes.
+- Orvibo AllOne integrates well with Xumo's typical IR requirements.
 
 ## Integration with Pipeline
 
 The IR driver integrates into the main correlation pipeline via:
 
-1. **Config file** specifies blaster settings
+1. **Config file** specifies blaster settings and device type
 2. **CLI** instantiates driver based on config
 3. **Verify module** uses driver to confirm remote actions
 4. **Pipeline** compares intended vs. observed state changes
