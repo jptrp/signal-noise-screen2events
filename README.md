@@ -157,10 +157,5 @@ Outputs are written to `runs/<timestamp>/`.
 - **[Contributing](CONTRIBUTING.md)** — Adapter pattern, test guidelines, security
 - **[Copilot Instructions](/.github/copilot-instructions.md)** — Architecture, patterns, dev workflow for AI coding agents
 
-## AI coding assistant prompt (safe and generic)
-Use this with Amazon Q, Copilot, or similar:
-
-> Build a Python MVP for correlating user-visible screen states (from HDMI-captured video) with application telemetry. The screen is the source of truth; telemetry is claims. Do not assume proprietary schemas or field names. Implement a vision-driven state machine (home/app open/playback/buffering/ad/error), gate telemetry ingestion until the app is visibly open, resolve session identity via overlay or log inference, persist stable device identity after first successful run, and generate a markdown report with screenshots as evidence. Prefer deterministic, explainable heuristics over complex ML.
-
 ## License
 MIT
