@@ -148,6 +148,14 @@ s2e run --config examples/config.example.yaml --video path/to/session.mp4
 
 Outputs are written to `runs/<timestamp>/`.
 
+## Documentation
+
+- **[For WebDriver Developers](docs/for-webdriver-developers.md)** — How screen-to-events differs from browser automation; why pixel analysis beats DOM inspection
+- **[For Data Teams](docs/for-data-teams.md)** — Telemetry integration patterns, KPIs, S3/Athena/OpenSearch quickstarts
+- **[IR Blaster Setup](docs/IR_BLASTER.md)** — Remote control automation, device-specific notes
+- **[Contributing](CONTRIBUTING.md)** — Adapter pattern, test guidelines, security
+- **[Copilot Instructions](/.github/copilot-instructions.md)** — Architecture, patterns, dev workflow for AI coding agents
+
 ## AI coding assistant prompt (safe and generic)
 Use this with Amazon Q, Copilot, or similar:
 
